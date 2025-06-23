@@ -1,0 +1,376 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stand Calendar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Baloo 2', cursive, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+      color: #5d4037;
+      overflow-x: hidden;
+    }
+    header {
+      background: #ff7043;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(255, 78, 80, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header img {
+      width: 120px;
+      border-radius: 50%;
+      box-shadow: 0 0 25px 6px rgba(255, 78, 80, 0.8);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    header img:hover {
+      transform: rotate(10deg) scale(1.15);
+      box-shadow: 0 0 40px 12px #fff176;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 3px #bb342f;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.15);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 3px 6px rgba(255, 255, 255, 0.3);
+      user-select: none;
+    }
+    nav ul li a:hover {
+      background-color: #fff176;
+      color: #ff7043;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px #fff176;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 50px auto 120px;
+      background: #fff9e6;
+      padding: 40px 50px;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(255, 110, 64, 0.4);
+      position: relative;
+      overflow: hidden;
+      color: #5d4037;
+      text-align: center;
+      user-select: none;
+    }
+    main h1 {
+      font-family: 'Baloo 2', cursive;
+      color: #ff7043;
+      font-size: 3.2rem;
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px 8px #ffa726;
+    }
+
+    /* Calendar grid */
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .calendar-header {
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      color: #bf360c;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 3px #bb342f;
+      user-select: none;
+    }
+    .date-cell {
+      background-color: #fff3e0;
+      padding: 15px 0;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(255, 176, 64, 0.4);
+      font-family: 'Comic Neue', cursive;
+      font-weight: 600;
+      cursor: pointer;
+      color: #bf360c;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      user-select: none;
+      position: relative;
+    }
+    .date-cell:hover {
+      background-color: #ffd54f;
+      box-shadow: 0 12px 30px rgba(255, 176, 64, 0.7);
+      color: #5d4037;
+      transform: scale(1.07);
+      z-index: 2;
+    }
+    .date-cell.disabled {
+      background-color: transparent;
+      box-shadow: none;
+      cursor: default;
+      color: transparent;
+    }
+
+    /* Highlight stand days */
+    .date-cell.has-market {
+      background-color: #fff176;
+      color: #5d4037;
+      font-weight: 900;
+      box-shadow: 0 0 12px 4px #ffea00aa;
+      border: 2px solid #fbc02d;
+      transition: box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .date-cell.has-market:hover {
+      box-shadow: 0 0 24px 8px #fff59dcc;
+      border-color: #fdd835;
+    }
+
+    /* Info box */
+    .info-box {
+      background-color: #fff3e0;
+      padding: 25px 30px;
+      border-radius: 25px;
+      box-shadow: 0 8px 25px rgba(255, 176, 64, 0.5);
+      color: #bf360c;
+      font-family: 'Comic Neue', cursive;
+      min-height: 140px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      user-select: none;
+    }
+    .info-box.hide {
+      opacity: 0;
+    }
+    .info-box h2 {
+      margin-top: 0;
+      color: #ff7043;
+      font-size: 2rem;
+      text-shadow: 1px 1px 3px #bb342f;
+    }
+    .info-box p {
+      font-size: 1.2rem;
+      margin: 8px 0;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 18px 0;
+      background: #ff7043;
+      color: #fff3e0;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -3px 10px rgba(255, 110, 64, 0.6);
+      user-select: none;
+      z-index: 10;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      main {
+        margin: 40px 20px 140px;
+        padding: 35px 25px;
+      }
+      main h1 {
+        font-size: 2.8rem;
+      }
+      .calendar {
+        gap: 6px;
+      }
+      .date-cell {
+        padding: 12px 0;
+        font-size: 0.9rem;
+      }
+    }
+    @media (max-width: 400px) {
+      nav ul {
+        flex-direction: column;
+        gap: 18px;
+        font-size: 1.1rem;
+      }
+      header img {
+        width: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="logoMarketMuse.png" alt="Market Muse Logo" />
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Standcalendar.html">Stand Calendar</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Stand Calendar</h1>
+
+  <div>
+    <select id="monthSelect" aria-label="Select month" title="Select month" style="font-family:'Comic Neue', cursive; font-weight:700; font-size:1.2rem; padding:8px 12px; border-radius:12px; border:none; box-shadow:0 5px 15px rgba(255,176,64,0.4); cursor:pointer; margin-right:12px;">
+      <!-- Months added by JS -->
+    </select>
+    <select id="yearSelect" aria-label="Select year" title="Select year" style="font-family:'Comic Neue', cursive; font-weight:700; font-size:1.2rem; padding:8px 12px; border-radius:12px; border:none; box-shadow:0 5px 15px rgba(255,176,64,0.4); cursor:pointer;">
+      <!-- Years added by JS -->
+    </select>
+  </div>
+
+  <div class="calendar" id="calendar">
+    <!-- Calendar days go here -->
+  </div>
+
+  <div class="info-box" id="infoBox">
+    <h2>Pick a date to see stand info</h2>
+    <p>No info selected yet.</p>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 MarketMuse all rights reserved.</p>
+</footer>
+
+<script>
+  const standData = {
+    "2025-07-05": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-07-06": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-07-13": { time: "10:00 AM - 4:00 PM", place: "Colectorsland Volmerlaan 12, 2288 GD Rijswijk" },
+    "2025-07-19": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-08-09": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-08-10": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+  };
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const calendarEl = document.getElementById('calendar');
+  const infoBox = document.getElementById('infoBox');
+  const monthSelect = document.getElementById('monthSelect');
+  const yearSelect = document.getElementById('yearSelect');
+
+  // Initialize month and year selectors
+  function initSelectors() {
+    const now = new Date();
+    for(let i = 0; i < 12; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = monthNames[i];
+      if(i === now.getMonth()) option.selected = true;
+      monthSelect.appendChild(option);
+    }
+    // Years from current-5 to current+5
+    const currentYear = now.getFullYear();
+    for(let y = currentYear - 5; y <= currentYear + 5; y++) {
+      const option = document.createElement('option');
+      option.value = y;
+      option.textContent = y;
+      if(y === currentYear) option.selected = true;
+      yearSelect.appendChild(option);
+    }
+  }
+
+  // Render the calendar grid for given month/year
+  function renderCalendar(year, month) {
+    calendarEl.innerHTML = '';
+
+    // Weekday headers
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    weekdays.forEach(day => {
+      const header = document.createElement('div');
+      header.classList.add('calendar-header');
+      header.textContent = day;
+      calendarEl.appendChild(header);
+    });
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const firstWeekday = firstDay.getDay();
+
+    // Add empty cells for days before 1st
+    for(let i = 0; i < firstWeekday; i++) {
+      const emptyCell = document.createElement('div');
+      emptyCell.classList.add('date-cell', 'disabled');
+      calendarEl.appendChild(emptyCell);
+    }
+
+    // Add date cells
+    for(let day = 1; day <= lastDay.getDate(); day++) {
+      const dateCell = document.createElement('div');
+      dateCell.classList.add('date-cell');
+      dateCell.textContent = day;
+
+      const isoDate = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      if(standData[isoDate]) {
+        dateCell.classList.add('has-market');
+      }
+
+      dateCell.dataset.date = isoDate;
+      dateCell.addEventListener('click', () => showInfo(isoDate));
+      calendarEl.appendChild(dateCell);
+    }
+  }
+
+  // Show info in info box with fade effect
+  function showInfo(date) {
+    const data = standData[date];
+    infoBox.classList.add('hide');
+    setTimeout(() => {
+      if(data) {
+        infoBox.innerHTML = `
+          <h2>Stand on ${date}</h2>
+          <p><strong>Time:</strong> ${data.time}</p>
+          <p><strong>Place:</strong> ${data.place}</p>
+        `;
+      } else {
+        infoBox.innerHTML = `<h2>${date}</h2><p>No stands booked check out our webshop or dm us to order online!!.</p>`;
+      }
+      infoBox.classList.remove('hide');
+    }, 400);
+  }
+
+  // Update calendar on select change
+  monthSelect.addEventListener('change', () => {
+    renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+    infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
+  });
+  yearSelect.addEventListener('change', () => {
+    renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+    infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
+  });
+
+  // Init on page load
+  initSelectors();
+  const now = new Date();
+  renderCalendar(now.getFullYear(), now.getMonth());
+
+</script>
+
+</body>
+</html>
