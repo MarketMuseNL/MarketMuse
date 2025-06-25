@@ -2,98 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Muse Product Categories</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Body & base styles */
+    /* Reset & Base */
     body {
-      font-family: 'Baloo 2', cursive, Arial, sans-serif;
+      font-family: 'Baloo 2', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
       background: linear-gradient(135deg, #f9d423, #ff4e50);
-      color: #5d4037;
+      color: #222;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
       background: #ff7043;
       color: #fff;
-      padding: 20px 0;
+      padding: 12px 0; /* smaller padding */
       text-align: center;
+      box-shadow: 0 6px 20px rgba(255, 78, 80, 0.7);
       position: sticky;
       top: 0;
       z-index: 10;
     }
     header img {
-      width: 100px;
+      width: 100px; /* smaller logo */
       border-radius: 50%;
+      box-shadow: 0 0 25px 6px rgba(255, 78, 80, 0.8);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    header img:hover {
+      transform: rotate(10deg) scale(1.2);
+      box-shadow: 0 0 40px 12px #fff176;
     }
 
     nav ul {
       list-style: none;
       padding: 0;
-      margin: 20px 0;
+      margin: 20px 0 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 28px;
       font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-shadow: 1px 1px 3px #bb342f;
+      flex-wrap: wrap;
     }
     nav ul li a {
-      color: white;
+      color: #fff;
       text-decoration: none;
-      padding: 8px 16px;
+      padding: 6px 14px;
+      border-radius: 12px;
       background: rgba(255, 255, 255, 0.15);
-      border-radius: 10px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 3px 6px rgba(255, 255, 255, 0.3);
+    }
+    nav ul li a:hover {
+      background-color: #fff176;
+      color: #ff7043;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px #fff176;
     }
 
+    /* Main */
     main {
       max-width: 900px;
-      margin: 50px auto;
+      margin: 50px auto 120px;
       background: #fff9e6;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 50px 60px;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(255, 110, 64, 0.4);
+      line-height: 1.75;
+      font-size: 1.15rem;
+      color: #5d4037;
+      position: relative;
+      overflow: hidden;
     }
-    .category {
-      margin-bottom: 40px;
-    }
-    .category h2 {
-      color: #ff7043;
+    main h1 {
       font-family: 'Baloo 2', cursive;
-      margin-bottom: 20px;
+      color: #ff7043;
+      font-size: 3.8rem;
+      margin-bottom: 30px;
+      letter-spacing: 3px;
+      text-align: center;
+      text-shadow: 2px 2px 8px #ffa726;
     }
+
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
     }
+
     .product-card {
       background: #fff3e0;
       border-radius: 10px;
       padding: 20px;
       text-align: center;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .product-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
     .product-card img {
       max-width: 100%;
       border-radius: 8px;
       margin-bottom: 15px;
+      transition: transform 0.3s ease;
     }
-    .product-name {
-      font-size: 1.2rem;
-      margin: 10px 0;
-      color: #ff7043;
-    }
-    .product-desc {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-    .product-price {
-      font-weight: bold;
-      color: #5d4037;
+    .product-card:hover img {
+      transform: scale(1.1) rotate(5deg);
     }
 
-    /* Footer copied from Contact page */
+    /* Smaller first two images */
+    .small-img img {
+      max-width: 60%;
+      margin: 0 auto 15px;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .small-img:hover img {
+      transform: scale(1.1) rotate(5deg);
+    }
+
     footer {
       text-align: center;
       padding: 18px 0;
@@ -102,8 +140,12 @@
       font-family: 'Comic Neue', cursive;
       font-weight: 700;
       letter-spacing: 0.7px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
       box-shadow: 0 -3px 10px rgba(255, 110, 64, 0.6);
       user-select: none;
+      z-index: 10;
     }
   </style>
 </head>
@@ -124,19 +166,14 @@
 <main>
   <h1>Our Products by Category</h1>
 
-  <div class="category">
-    <h2>Julewry</h2>
-    <div class="products-grid">
-      <div class="product-card">
-        <img src="images/Ring.png" alt="Rings" />
-        <div class="product-name">Rings</div>
-        <div class="product-desc">Nice Rings to make youre Vingers shine!</div>
-      </div>
-      <div class="product-card">
-        <img src="images/Bracelet.png" alt="Bracelets" />
-        <div class="product-name">Bracelets</div>
-        <div class="product-desc">Bracelets to style and show youre personality or elegance</div>
-      </div>
+  <div class="products-grid">
+    <div class="product-card small-img">
+      <img src="Ring.png" alt="Rings" />
+      <div class="product-name">Rings</div>
+    </div>
+    <div class="product-card small-img">
+      <img src="Bracelets.png" alt="Bracelets" />
+      <div class="product-name">Bracelets</div>
     </div>
   </div>
 
@@ -144,17 +181,17 @@
     <h2>Fashion</h2>
     <div class="products-grid">
       <div class="product-card">
-        <img src="images/Croc decoration.png" alt="Croc decoration" />
+        <img src="Crocdecoration.png" alt="Croc decoration" />
         <div class="product-name">Croc decoration</div>
         <div class="product-desc">fun, customizable charms For youre crocs</div>
       </div>
       <div class="product-card">
-        <img src="images/Keychains.png" alt="Keychains" />
+        <img src="Keychains.png" alt="Keychains" />
         <div class="product-name">Keychains</div>
         <div class="product-desc">fun to style with youre bag or put it on a key!</div>
       </div>
       <div class="product-card">
-        <img src="images/Sunglasses.png" alt="Sunglasses" />
+        <img src="Sunglasses.png" alt="Sunglasses" />
         <div class="product-name">Sunglasses</div>
         <div class="product-desc">Good against the sun and make youre look more fashionable</div>
       </div>
@@ -165,17 +202,17 @@
     <h2>Hats</h2>
     <div class="products-grid">
       <div class="product-card">
-        <img src="images/Baseball hats.png" alt="Baseball hats" />
+        <img src="Baseballhats.png" alt="Baseball hats" />
         <div class="product-name">Baseball hats</div>
         <div class="product-desc">good for sun,And a casual sporty look</div>
       </div>
       <div class="product-card">
-        <img src="images/Beanies.png" alt="Beanies" />
+        <img src="Beanies.png" alt="Beanies" />
         <div class="product-name">Beanies</div>
         <div class="product-desc">Warm and stylish</div>
       </div>
       <div class="product-card">
-        <img src="images/Hats.png" alt="Hats" />
+        <img src="Hats.png" alt="Hats" />
         <div class="product-name">Hats</div>
         <div class="product-desc">A allround hat against sun and add style</div>
       </div>
@@ -186,17 +223,17 @@
     <h2>Music</h2>
     <div class="products-grid">
       <div class="product-card">
-        <img src="images/Kalimba.png" alt="Kalimba" />
+        <img src="Kalimba.png" alt="Kalimba" />
         <div class="product-name">Kalimba</div>
         <div class="product-desc">A Music box for the fingers</div>
       </div>
       <div class="product-card">
-        <img src="images/RainDrum.png" alt="RainDrum" />
+        <img src="RainDrum.png" alt="RainDrum" />
         <div class="product-name">RainDrum</div>
         <div class="product-desc">For under the rain to make a nice sound or with a hammer!</div>
       </div>
       <div class="product-card">
-        <img src="images/Music Box.png" alt="Music Box" />
+        <img src="MusicBox.png" alt="Music Box" />
         <div class="product-name">Music Box</div>
         <div class="product-desc">A box you spin for youre favorite song</div>
       </div>
@@ -207,27 +244,28 @@
     <h2>And More</h2>
     <div class="products-grid">
       <div class="product-card">
-        <img src="images/Hair Clips.png" alt="Hair Clips" />
+        <img src="Hair Clips.png" alt="Hair Clips" />
         <div class="product-name">Hair Clips</div>
         <div class="product-desc">Nice for youre hair and keeps it steady</div>
       </div>
       <div class="product-card">
-        <img src="images/Seal Wax.png" alt="Seal Wax" />
+        <img src="Seal Wax.png" alt="Seal Wax" />
         <div class="product-name">Seal Wax</div>
         <div class="product-desc">to seal youre envelope</div>
       </div>
       <div class="product-card">
-        <img src="images/Phone Cases" alt="Phone Cases" />
+        <img src="Phone Cases" alt="Phone Cases" />
         <div class="product-name">Phone Cases</div>
         <div class="product-desc">To protect and style youre phone!</div>
       </div>
       <div class="product-card">
-        <img src="images/Airpod Cases.png" alt="Airpod Cases" />
+        <img src="Airpod Cases.png" alt="Airpod Cases" />
         <div class="product-name">Airpod Cases</div>
         <div class="product-desc">To style youre airpods</div>
       </div>
     </div>
   </div>
+
 </main>
 
 <footer>
@@ -236,3 +274,4 @@
 
 </body>
 </html>
+
