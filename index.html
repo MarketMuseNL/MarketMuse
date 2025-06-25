@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Market Muse Stand</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & base */
+    /* Reset & Base */
     body {
       font-family: 'Baloo 2', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -20,15 +20,15 @@
     header {
       background: #ff7043;
       color: #fff;
-      padding: 20px 0;
+      padding: 8px 0; /* thinner header */
       text-align: center;
-      box-shadow: 0 6px 20px rgba(255, 78, 80, 0.7);
+      box-shadow: 0 4px 14px rgba(255, 78, 80, 0.7);
       position: sticky;
       top: 0;
       z-index: 10;
     }
     header img {
-      width: 140px;
+      width: 100px;
       border-radius: 50%;
       box-shadow: 0 0 25px 6px rgba(255, 78, 80, 0.8);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -49,6 +49,7 @@
       font-weight: 700;
       font-size: 1.25rem;
       text-shadow: 1px 1px 3px #bb342f;
+      flex-wrap: wrap;
     }
     nav ul li a {
       color: #fff;
@@ -131,11 +132,9 @@
       color: #ffcc80;
       text-decoration: underline;
     }
-
-    /* Buttons */
     main button {
       display: block;
-      margin: 25px auto 0;
+      margin: 10px auto 0; /* smaller top margin for first button */
       background: linear-gradient(45deg, #ff7043, #ffcc80);
       color: #5d4037;
       border: none;
@@ -150,30 +149,22 @@
       position: relative;
       overflow: hidden;
       letter-spacing: 1.2px;
+      max-width: 300px;
+      width: 80%;
+      text-align: center;
     }
-    main button::after {
-      content: '➔';
-      position: absolute;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%) translateX(0);
-      font-size: 1.6rem;
-      opacity: 0.7;
-      transition: transform 0.3s ease;
+    main button:nth-of-type(2) {
+      margin-top: 25px;
     }
     main button:hover {
-      transform: scale(1.12);
-      box-shadow: 0 12px 35px rgba(255, 176, 64, 1);
-    }
-    main button:hover::after {
-      transform: translateY(-50%) translateX(8px);
-      opacity: 1;
+      transform: scale(1.1);
+      box-shadow: 0 12px 30px rgba(255, 176, 64, 1);
     }
 
     /* Footer */
     footer {
       text-align: center;
-      padding: 18px 0;
+      padding: 8px 0; /* thinner footer */
       background: #ff7043;
       color: #fff3e0;
       font-family: 'Comic Neue', cursive;
@@ -187,70 +178,72 @@
       z-index: 10;
     }
 
-    /* Responsive */
-    @media (max-width: 600px) {
+    /* Responsive Design */
+    @media (max-width: 768px) {
       main {
-        margin: 40px 20px 120px;
-        padding: 35px 25px;
+        margin: 40px 15px 120px;
+        padding: 40px 20px;
         font-size: 1rem;
       }
       main h1 {
-        font-size: 2.8rem;
+        font-size: 3.2rem;
       }
       nav ul {
         flex-direction: column;
-        gap: 16px;
-        font-size: 1.1rem;
+        gap: 10px;
+        font-size: 1.2rem;
       }
-      header img {
-        width: 100px;
+      nav ul li {
+        text-align: center;
+      }
+    }
+    @media (max-width: 480px) {
+      nav ul {
+        font-size: 1rem;
+      }
+      main h1 {
+        font-size: 2.5rem;
       }
       main button {
-        padding: 16px 30px;
-        font-size: 1.1rem;
+        padding: 14px 25px;
+        font-size: 1rem;
+      }
+      header img {
+        width: 80px;
       }
     }
   </style>
 </head>
 <body>
+  <header>
+    <img src="logoMarketMuse.png" alt="Market Muse Logo" />
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="Standcalendar.html">Stand Calendar</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<header>
-  <img src="logoMarketMuse.png" alt="Market Muse Logo" />
-  <nav>
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="Standcalendar.html">Stand Calendar</a></li>
-      <li><a href="products.html">Products</a></li>
-      <li><a href="Contact.html">Contact</a></li>
-    </ul>
-  </nav>
-</header>
+  <main>
+    <h1>Welcome to Market Muse Stand</h1>
+    <div class="about">
+      <p>At Market Muse, we believe shopping should be an adventure full of fun, surprises, and unique finds!</p>
+      <p>We regularly set up shop at local markets and anime events around town.</p>
+    </div>
+    <div class="contact-info">
+      <p>Email: <a href="mailto:marketmuse2000@gmail.com">marketmuse2000@gmail.com</a></p>
+      <p>Instagram: <a href="https://instagram.com/MarketMusenl">@MarketMusenl</a></p>
+    </div>
+    <button onclick="location.href='Standcalendar.html'">Check Our Stand Calendar</button>
+    <button onclick="location.href='https://your-order-site.com'">View Products &amp; Order Here</button>
+  </main>
 
-<main>
-  <h1>Welcome to Market Muse Stand</h1>
-
-  <div class="about">
-    <p>
-      At Market Muse, we believe shopping should be an adventure full of fun, surprises, and unique finds! Our stand features a carefully curated collection of quirky, fun, and anime-inspired goodies that you won’t find anywhere else.
-    </p>
-    <p>
-      We regularly set up shop at local markets and anime events around town — it's a place to connect, discover, and celebrate your fandom with us. Stop by and say hello, I’m always excited to meet fellow enthusiasts and share stories behind each item!
-    </p>
-  </div>
-
-  <div class="contact-info">
-    <p>Got questions or just want to chat? Reach out anytime!</p>
-    <p>Email: <a href="mailto:marketmuse2000@gmail.com">marketmuse2000@gmail.com</a></p>
-    <p>Instagram: <a href="https://instagram.com/MarketMusenl" target="_blank" rel="noopener">@MarketMusenl</a></p>
-  </div>
-
-  <button onclick="location.href='Standcalendar.html'">Check Our Stand Calendar</button>
-  <button onclick="location.href='https://your-order-site.com'">View Products &amp; Order Here</button>
-</main>
-
-<footer>
-  <p>&copy; 2025 MarketMuse. All rights reserved.</p>
-</footer>
-
+  <footer>
+    <p>&copy; 2025 MarketMuse. All rights reserved.</p>
+  </footer>
 </body>
 </html>
+
