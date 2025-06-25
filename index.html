@@ -6,81 +6,77 @@
   <title>Market Muse Stand</title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & Base */
+    /* Base styles */
     body {
-      font-family: 'Baloo 2', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Baloo 2', cursive, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #f9d423, #ff4e50);
-      color: #222;
+      color: #333;
       overflow-x: hidden;
     }
 
-    /* Header */
     header {
       background: #ff7043;
-      color: #fff;
-      padding: 8px 0; /* thinner header */
+      color: white;
+      padding: 10px 0;
       text-align: center;
       box-shadow: 0 4px 14px rgba(255, 78, 80, 0.7);
       position: sticky;
       top: 0;
       z-index: 10;
     }
+
     header img {
-      width: 100px;
+      width: 90px;
       border-radius: 50%;
-      box-shadow: 0 0 25px 6px rgba(255, 78, 80, 0.8);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 0 20px 5px rgba(255, 78, 80, 0.8);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
     }
+
     header img:hover {
-      transform: rotate(10deg) scale(1.2);
-      box-shadow: 0 0 40px 12px #fff176;
+      transform: rotate(8deg) scale(1.15);
+      box-shadow: 0 0 35px 10px #fff176;
     }
+
     nav ul {
       list-style: none;
       padding: 0;
-      margin: 20px 0 0;
+      margin: 16px 0 0;
       display: flex;
       justify-content: center;
-      gap: 28px;
+      gap: 24px;
+      flex-wrap: wrap;
       font-family: 'Comic Neue', cursive;
       font-weight: 700;
-      font-size: 1.25rem;
-      text-shadow: 1px 1px 3px #bb342f;
-      flex-wrap: wrap;
+      font-size: 1.15rem;
     }
+
     nav ul li a {
       color: #fff;
       text-decoration: none;
-      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px 14px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.15);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 3px 6px rgba(255, 255, 255, 0.3);
-    }
-    nav ul li a:hover {
-      background-color: #fff176;
-      color: #ff7043;
-      transform: scale(1.1);
-      box-shadow: 0 6px 20px #fff176;
+      transition: all 0.3s ease;
     }
 
-    /* Main */
+    nav ul li a:hover {
+      background: #fff176;
+      color: #ff5722;
+      transform: scale(1.05);
+    }
+
     main {
       max-width: 900px;
       margin: 50px auto 120px;
+      padding: 50px 40px;
       background: #fff9e6;
-      padding: 50px 60px;
       border-radius: 25px;
       box-shadow: 0 12px 30px rgba(255, 110, 64, 0.4);
-      line-height: 1.75;
-      font-size: 1.15rem;
-      color: #5d4037;
       position: relative;
-      overflow: hidden;
     }
+
     main::before {
       content: "★";
       font-size: 100px;
@@ -88,128 +84,111 @@
       position: absolute;
       top: -20px;
       right: -20px;
-      opacity: 0.15;
-      transform: rotate(15deg);
-      pointer-events: none;
+      opacity: 0.12;
+      transform: rotate(20deg);
       user-select: none;
+      pointer-events: none;
     }
-    main h1 {
-      font-family: 'Baloo 2', cursive;
-      color: #ff7043;
-      font-size: 3.8rem;
-      margin-bottom: 30px;
-      letter-spacing: 3px;
+
+    h1 {
+      font-size: 3.2rem;
       text-align: center;
-      text-shadow: 2px 2px 8px #ffa726;
+      color: #ff7043;
+      font-family: 'Baloo 2', cursive;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 5px #ffa726;
     }
-    main .about p {
-      margin-bottom: 25px;
-    }
-    main .about {
+
+    .about {
       background: #fff3e0;
-      padding: 30px 35px;
+      padding: 25px 30px;
       border-radius: 18px;
-      box-shadow: inset 0 0 25px #ffb74d;
       font-style: italic;
       font-family: 'Comic Neue', cursive;
       color: #bf360c;
+      box-shadow: inset 0 0 20px #ffb74d;
+      margin-bottom: 30px;
     }
-    main .contact-info {
+
+    .contact-info {
       text-align: center;
-      margin: 40px 0;
       font-weight: 600;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #d84315;
-      letter-spacing: 0.7px;
+      margin-bottom: 30px;
     }
-    main .contact-info a {
+
+    .contact-info a {
       color: #ff7043;
-      font-weight: 800;
       text-decoration: none;
-      transition: color 0.3s ease;
+      font-weight: bold;
     }
-    main .contact-info a:hover {
+
+    .contact-info a:hover {
       color: #ffcc80;
       text-decoration: underline;
     }
-    main button {
-      display: block;
-      margin: 10px auto 0; /* smaller top margin for first button */
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .button-group button {
       background: linear-gradient(45deg, #ff7043, #ffcc80);
       color: #5d4037;
       border: none;
       border-radius: 40px;
-      padding: 18px 50px;
+      padding: 16px 40px;
       font-family: 'Comic Neue', cursive;
       font-weight: 900;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(255, 176, 64, 0.8);
+      box-shadow: 0 8px 20px rgba(255, 176, 64, 0.8);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
-      position: relative;
-      overflow: hidden;
-      letter-spacing: 1.2px;
       max-width: 300px;
       width: 80%;
-      text-align: center;
     }
-    main button:nth-of-type(2) {
-      margin-top: 25px;
-    }
-    main button:hover {
+
+    .button-group button:hover {
       transform: scale(1.1);
       box-shadow: 0 12px 30px rgba(255, 176, 64, 1);
     }
 
-    /* Footer */
     footer {
       text-align: center;
-      padding: 8px 0; /* thinner footer */
+      padding: 8px 0;
       background: #ff7043;
       color: #fff3e0;
       font-family: 'Comic Neue', cursive;
       font-weight: 700;
-      letter-spacing: 0.7px;
       position: fixed;
       bottom: 0;
       width: 100%;
       box-shadow: 0 -3px 10px rgba(255, 110, 64, 0.6);
-      user-select: none;
-      z-index: 10;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       main {
         margin: 40px 15px 120px;
         padding: 40px 20px;
-        font-size: 1rem;
       }
-      main h1 {
-        font-size: 3.2rem;
+
+      h1 {
+        font-size: 2.6rem;
       }
+
       nav ul {
         flex-direction: column;
-        gap: 10px;
-        font-size: 1.2rem;
+        gap: 12px;
+        font-size: 1.1rem;
       }
-      nav ul li {
-        text-align: center;
-      }
-    }
-    @media (max-width: 480px) {
-      nav ul {
+
+      .button-group button {
+        padding: 14px 24px;
         font-size: 1rem;
-      }
-      main h1 {
-        font-size: 2.5rem;
-      }
-      main button {
-        padding: 14px 25px;
-        font-size: 1rem;
-      }
-      header img {
-        width: 80px;
       }
     }
   </style>
@@ -229,20 +208,26 @@
 
   <main>
     <h1>Welcome to Market Muse Stand</h1>
+
     <div class="about">
       <p>At Market Muse, we believe shopping should be an adventure full of fun, surprises, and unique finds!</p>
-      <p>We regularly set up shop at local markets and anime events around town.</p>
+      <p>You’ll find us popping up at local markets and anime events throughout the Netherlands.</p>
     </div>
+
     <div class="contact-info">
       <p>Email: <a href="mailto:marketmuse2000@gmail.com">marketmuse2000@gmail.com</a></p>
-      <p>Instagram: <a href="https://instagram.com/MarketMusenl">@MarketMusenl</a></p>
+      <p>Instagram: <a href="https://instagram.com/MarketMusenl" target="_blank">@MarketMusenl</a></p>
     </div>
-    <button onclick="location.href='Standcalendar.html'">Check Our Stand Calendar</button>
-    <button onclick="location.href='https://your-order-site.com'">View Products &amp; Order Here</button>
+
+    <div class="button-group">
+      <button onclick="location.href='Standcalendar.html'">Check Our Stand Calendar</button>
+      <button onclick="location.href='https://your-order-site.com'">View Products & Order Here</button>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 MarketMuse. All rights reserved.</p>
+    <p>&copy; 2025 Market Muse. All rights reserved.</p>
   </footer>
 </body>
 </html>
+
