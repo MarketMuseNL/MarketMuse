@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -65,7 +65,7 @@
     }
 
     main {
-      max-width: 700px;
+      max-width: 750px;
       margin: 50px auto 120px;
       background: #fff9e6;
       padding: 40px 50px;
@@ -81,18 +81,26 @@
       font-family: 'Baloo 2', cursive;
       color: #ff7043;
       font-size: 3.2rem;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       letter-spacing: 3px;
       text-shadow: 2px 2px 8px #ffa726;
     }
 
-    /* Calendar grid */
+    .calendar-controls {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
     .calendar {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 10px;
       margin-bottom: 30px;
     }
+
     .calendar-header {
       font-family: 'Comic Neue', cursive;
       font-weight: 700;
@@ -101,6 +109,7 @@
       text-shadow: 1px 1px 3px #bb342f;
       user-select: none;
     }
+
     .date-cell {
       background-color: #fff3e0;
       padding: 15px 0;
@@ -108,19 +117,34 @@
       box-shadow: 0 5px 15px rgba(255, 176, 64, 0.4);
       font-family: 'Comic Neue', cursive;
       font-weight: 600;
-      cursor: pointer;
       color: #bf360c;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
       user-select: none;
-      position: relative;
+      cursor: pointer;
+      border: none;
+      outline: none;
     }
-    .date-cell:hover {
+
+    .date-cell:hover, .date-cell:focus {
       background-color: #ffd54f;
       box-shadow: 0 12px 30px rgba(255, 176, 64, 0.7);
-      color: #5d4037;
       transform: scale(1.07);
       z-index: 2;
+      color: #5d4037;
     }
+
+    .date-cell.today {
+      border: 3px solid #ff7043;
+      box-shadow: 0 0 20px #ff7043cc;
+    }
+
+    .date-cell.has-market {
+      background-color: #fff176;
+      font-weight: 900;
+      border: 2px solid #fbc02d;
+      box-shadow: 0 0 12px 4px #ffea00aa;
+    }
+
     .date-cell.disabled {
       background-color: transparent;
       box-shadow: none;
@@ -128,21 +152,6 @@
       color: transparent;
     }
 
-    /* Highlight stand days */
-    .date-cell.has-market {
-      background-color: #fff176;
-      color: #5d4037;
-      font-weight: 900;
-      box-shadow: 0 0 12px 4px #ffea00aa;
-      border: 2px solid #fbc02d;
-      transition: box-shadow 0.4s ease, border-color 0.4s ease;
-    }
-    .date-cell.has-market:hover {
-      box-shadow: 0 0 24px 8px #fff59dcc;
-      border-color: #fdd835;
-    }
-
-    /* Info box */
     .info-box {
       background-color: #fff3e0;
       padding: 25px 30px;
@@ -151,19 +160,22 @@
       color: #bf360c;
       font-family: 'Comic Neue', cursive;
       min-height: 140px;
-      opacity: 1;
-      transition: opacity 0.5s ease;
-      user-select: none;
+      transition: all 0.4s ease;
+      transform: translateY(0);
     }
+
     .info-box.hide {
       opacity: 0;
+      transform: translateY(10px);
     }
+
     .info-box h2 {
       margin-top: 0;
       color: #ff7043;
       font-size: 2rem;
       text-shadow: 1px 1px 3px #bb342f;
     }
+
     .info-box p {
       font-size: 1.2rem;
       margin: 8px 0;
@@ -186,7 +198,6 @@
       z-index: 10;
     }
 
-    /* Responsive */
     @media (max-width: 720px) {
       main {
         margin: 40px 20px 140px;
@@ -203,6 +214,7 @@
         font-size: 0.9rem;
       }
     }
+
     @media (max-width: 400px) {
       nav ul {
         flex-direction: column;
@@ -232,20 +244,20 @@
 <main>
   <h1>Stand Calendar</h1>
 
-  <div>
-    <select id="monthSelect" aria-label="Select month" title="Select month" style="font-family:'Comic Neue', cursive; font-weight:700; font-size:1.2rem; padding:8px 12px; border-radius:12px; border:none; box-shadow:0 5px 15px rgba(255,176,64,0.4); cursor:pointer; margin-right:12px;">
-      <!-- Months added by JS -->
-    </select>
-    <select id="yearSelect" aria-label="Select year" title="Select year" style="font-family:'Comic Neue', cursive; font-weight:700; font-size:1.2rem; padding:8px 12px; border-radius:12px; border:none; box-shadow:0 5px 15px rgba(255,176,64,0.4); cursor:pointer;">
-      <!-- Years added by JS -->
-    </select>
+  <div class="calendar-controls">
+    <select id="monthSelect" title="Select month"></select>
+    <select id="yearSelect" title="Select year"></select>
+    <label style="display:flex; align-items:center; gap:8px;">
+      <input type="checkbox" id="marketOnly" />
+      <span style="font-family:'Comic Neue'; font-weight:bold;">Only show market days</span>
+    </label>
   </div>
 
-  <div class="calendar" id="calendar">
-    <!-- Calendar days go here -->
+  <div class="calendar" id="calendar" aria-label="Calendar grid">
+    <!-- Calendar days -->
   </div>
 
-  <div class="info-box" id="infoBox">
+  <div class="info-box" id="infoBox" aria-live="polite">
     <h2>Pick a date to see stand info</h2>
     <p>No info selected yet.</p>
   </div>
@@ -257,120 +269,108 @@
 
 <script>
   const standData = {
-    "2025-07-05": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-07-05": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
     "2025-07-06": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
     "2025-07-13": { time: "10:00 AM - 4:00 PM", place: "Colectorsland Volmerlaan 12, 2288 GD Rijswijk" },
-    "2025-07-19": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-08-09": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-08-10": { time: "9:00 Am - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-07-19": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-08-09": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-08-10": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
   };
+
+  const calendarEl = document.getElementById('calendar');
+  const infoBox = document.getElementById('infoBox');
+  const monthSelect = document.getElementById('monthSelect');
+  const yearSelect = document.getElementById('yearSelect');
+  const marketOnlyToggle = document.getElementById('marketOnly');
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
 
-  const calendarEl = document.getElementById('calendar');
-  const infoBox = document.getElementById('infoBox');
-  const monthSelect = document.getElementById('monthSelect');
-  const yearSelect = document.getElementById('yearSelect');
-
-  // Initialize month and year selectors
   function initSelectors() {
     const now = new Date();
-    for(let i = 0; i < 12; i++) {
-      const option = document.createElement('option');
-      option.value = i;
-      option.textContent = monthNames[i];
-      if(i === now.getMonth()) option.selected = true;
-      monthSelect.appendChild(option);
+    for (let i = 0; i < 12; i++) {
+      const opt = new Option(monthNames[i], i);
+      if (i === now.getMonth()) opt.selected = true;
+      monthSelect.appendChild(opt);
     }
-    // Years from current-5 to current+5
-    const currentYear = now.getFullYear();
-    for(let y = currentYear - 5; y <= currentYear + 5; y++) {
-      const option = document.createElement('option');
-      option.value = y;
-      option.textContent = y;
-      if(y === currentYear) option.selected = true;
-      yearSelect.appendChild(option);
+    for (let y = now.getFullYear() - 5; y <= now.getFullYear() + 5; y++) {
+      const opt = new Option(y, y);
+      if (y === now.getFullYear()) opt.selected = true;
+      yearSelect.appendChild(opt);
     }
   }
 
-  // Render the calendar grid for given month/year
   function renderCalendar(year, month) {
-    calendarEl.innerHTML = '';
-
-    // Weekday headers
+    calendarEl.innerHTML = "";
     const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    weekdays.forEach(day => {
-      const header = document.createElement('div');
-      header.classList.add('calendar-header');
-      header.textContent = day;
-      calendarEl.appendChild(header);
+    weekdays.forEach(d => {
+      const h = document.createElement('div');
+      h.className = 'calendar-header';
+      h.textContent = d;
+      calendarEl.appendChild(h);
     });
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const firstWeekday = firstDay.getDay();
 
-    // Add empty cells for days before 1st
-    for(let i = 0; i < firstWeekday; i++) {
-      const emptyCell = document.createElement('div');
-      emptyCell.classList.add('date-cell', 'disabled');
-      calendarEl.appendChild(emptyCell);
+    for (let i = 0; i < firstWeekday; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'date-cell disabled';
+      calendarEl.appendChild(cell);
     }
 
-    // Add date cells
-    for(let day = 1; day <= lastDay.getDate(); day++) {
-      const dateCell = document.createElement('div');
-      dateCell.classList.add('date-cell');
-      dateCell.textContent = day;
+    const todayStr = new Date().toISOString().slice(0, 10);
 
+    for (let day = 1; day <= lastDay.getDate(); day++) {
       const isoDate = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-      if(standData[isoDate]) {
-        dateCell.classList.add('has-market');
-      }
+      const isMarket = standData[isoDate];
+      const showOnlyMarkets = marketOnlyToggle.checked;
+      if (showOnlyMarkets && !isMarket) continue;
 
-      dateCell.dataset.date = isoDate;
-      dateCell.addEventListener('click', () => showInfo(isoDate));
-      calendarEl.appendChild(dateCell);
+      const btn = document.createElement('button');
+      btn.className = 'date-cell';
+      btn.textContent = day;
+      btn.dataset.date = isoDate;
+      if (isoDate === todayStr) btn.classList.add('today');
+      if (isMarket) btn.classList.add('has-market');
+      btn.onclick = () => showInfo(isoDate);
+      calendarEl.appendChild(btn);
     }
   }
 
-  // Show info in info box with fade effect
   function showInfo(date) {
     const data = standData[date];
     infoBox.classList.add('hide');
     setTimeout(() => {
-      if(data) {
+      if (data) {
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.place)}`;
         infoBox.innerHTML = `
           <h2>Stand on ${date}</h2>
           <p><strong>Time:</strong> ${data.time}</p>
-          <p><strong>Place:</strong> ${data.place}</p>
+          <p><strong>Place:</strong> <a href="${mapsUrl}" target="_blank">${data.place}</a></p>
         `;
       } else {
-        infoBox.innerHTML = `<h2>${date}</h2><p>No stands booked check out our webshop or dm us to order online!!.</p>`;
+        infoBox.innerHTML = `<h2>${date}</h2><p>No stands booked. Check our webshop or DM us to order online!</p>`;
       }
       infoBox.classList.remove('hide');
     }, 400);
   }
 
-  // Update calendar on select change
-  monthSelect.addEventListener('change', () => {
-    renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-    infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
-  });
-  yearSelect.addEventListener('change', () => {
-    renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
-    infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
+  [monthSelect, yearSelect, marketOnlyToggle].forEach(el => {
+    el.addEventListener('change', () => {
+      renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
+      infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
+    });
   });
 
-  // Init on page load
   initSelectors();
   const now = new Date();
   renderCalendar(now.getFullYear(), now.getMonth());
-
 </script>
 
 </body>
 </html>
+
