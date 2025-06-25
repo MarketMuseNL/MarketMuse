@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Contact Market Muse for inquiries about our products and services.">
+  <meta name="keywords" content="Market Muse, Contact, Products, Support">
   <title>Market Muse Contact</title>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
   <style>
-    /* Reset & base */
+    /* Reset & Base Styles */
     body {
       font-family: 'Baloo 2', cursive, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -77,8 +79,6 @@
       line-height: 1.75;
       font-size: 1.15rem;
       color: #5d4037;
-      position: relative;
-      overflow: hidden;
     }
     main h1 {
       font-family: 'Baloo 2', cursive;
@@ -90,7 +90,7 @@
       text-shadow: 2px 2px 8px #ffa726;
     }
 
-    /* Contact Form Styling */
+    /* Contact Form */
     .contact-form {
       background: #fff9e6;
       padding: 40px 50px;
@@ -150,22 +150,33 @@
       color: #fff3e0;
       font-family: 'Comic Neue', cursive;
       font-weight: 700;
-      letter-spacing: 0.7px;
       box-shadow: 0 -3px 10px rgba(255, 110, 64, 0.6);
-      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      main {
+        padding: 30px;
+      }
+      .contact-form {
+        padding: 30px;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        gap: 14px;
+      }
     }
   </style>
 </head>
 <body>
-
 <header>
   <img src="logoMarketMuse.png" alt="Market Muse Logo" />
   <nav>
     <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="Standcalendar.html">Stand Calendar</a></li>
-      <li><a href="products.html">Products</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html" aria-label="Home">Home</a></li>
+      <li><a href="Standcalendar.html" aria-label="Stand Calendar">Stand Calendar</a></li>
+      <li><a href="products.html" aria-label="Products">Products</a></li>
+      <li><a href="contact.html" aria-label="Contact">Contact</a></li>
     </ul>
   </nav>
 </header>
@@ -173,31 +184,28 @@
 <main>
   <h1>Contact Us</h1>
   <div class="contact-form">
-    <form action="https://api.web3forms.com/submit" method="POST">
-      <input type="hidden" name="access_key" value="6fe19c5e-224b-40b4-a46c-16b582642d85" />
+    <form action="https://api.web3forms.com/submit" method="POST" novalidate>
+      <input type="hidden" name="access_key" value="6fe19c5e-224b-40b4-a46c-16b582642d85">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your name" required />
+        <input type="text" id="name" name="name" placeholder="Your Full Name" required>
       </div>
-
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        <input type="email" id="email" name="email" placeholder="Your Email Address" required>
       </div>
-
       <div class="form-group">
         <label for="message">Message</label>
-        <textarea id="message" name="message" rows="4" placeholder="Write your message here" required></textarea>
+        <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
       </div>
-
       <button type="submit">Send Message</button>
     </form>
   </div>
 </main>
 
 <footer>
-  <p>&copy; 2025 MarketMuse. All rights reserved.</p>
+  <p>&copy; 2025 Market Muse. All rights reserved.</p>
 </footer>
-
 </body>
 </html>
+
