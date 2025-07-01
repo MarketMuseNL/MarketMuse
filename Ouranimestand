@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Market Muse Product Categories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Comic+Neue:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Baloo 2', cursive, 'Comic Neue', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #fce4ec, #b2ebf2);
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(90deg, #f8bbd0, #b3e5fc);
+      color: #4a148c;
+      padding: 16px 0;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(179, 229, 252, 0.6);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    header img {
+      width: 90px;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      cursor: pointer;
+    }
+
+    header img:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 0 40px #fff9c4;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    nav ul li a {
+      color: #4a148c;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background: #f8bbd0;
+      color: #311b92;
+      box-shadow: 0 4px 12px #f8bbd0;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 80px auto 150px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid #fce4ec;
+      padding: 60px 70px;
+      border-radius: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 10;
+    }
+
+    main h1 {
+      font-family: 'Baloo 2', cursive;
+      color: #ba68c8;
+      font-size: 3.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 4px #f8bbd0;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      background: #f3e5f5;
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(186, 104, 200, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 10px 30px rgba(186, 104, 200, 0.3);
+    }
+
+    .product-card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .product-name {
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: #4a148c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(90deg, #f8bbd0, #b3e5fc);
+      color: #4a148c;
+      font-family: 'Comic Neue', cursive;
+      font-weight: 700;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -3px 15px rgba(179, 229, 252, 0.5);
+      z-index: 20;
+    }
+
+    /* Lanterns */
+    .lantern {
+      position: fixed;
+      bottom: -100px;
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(circle at 50% 30%, #fff59d 30%, #ffb74d 100%);
+      border-radius: 40% 40% 30% 30%;
+      box-shadow: 0 0 40px 20px rgba(255, 183, 77, 0.8);
+      animation: floatUp linear infinite;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-140vh); opacity: 0; }
+    }
+
+    /* Clouds */
+    .cloud {
+      position: fixed;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.6;
+      filter: blur(12px);
+      animation: drift 120s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      filter: blur(8px);
+    }
+
+    .cloud::before {
+      width: 100px;
+      height: 100px;
+      top: -30px;
+      left: 30px;
+    }
+
+    .cloud::after {
+      width: 80px;
+      height: 80px;
+      top: -20px;
+      left: -40px;
+    }
+
+    @keyframes drift {
+      0% { left: -200px; }
+      100% { left: 120%; }
+    }
+
+    .cloud:nth-child(1) { width: 140px; height: 80px; top: 10%; animation-duration: 100s; }
+    .cloud:nth-child(2) { width: 180px; height: 90px; top: 30%; animation-duration: 140s; animation-delay: 20s; }
+    .cloud:nth-child(3) { width: 220px; height: 100px; top: 50%; animation-duration: 160s; animation-delay: 40s; }
+    .cloud:nth-child(4) { width: 160px; height: 90px; top: 70%; animation-duration: 130s; animation-delay: 10s; }
+  </style>
+</head>
+<body>
+
+<!-- Lanterns: More and faster -->
+<div class="lantern" style="left: 5%; animation-duration: 25s; animation-delay: 0s;"></div>
+<div class="lantern" style="left: 15%; animation-duration: 27s; animation-delay: 2s;"></div>
+<div class="lantern" style="left: 25%; animation-duration: 23s; animation-delay: 4s;"></div>
+<div class="lantern" style="left: 35%; animation-duration: 26s; animation-delay: 1s;"></div>
+<div class="lantern" style="left: 45%; animation-duration: 24s; animation-delay: 3s;"></div>
+<div class="lantern" style="left: 55%; animation-duration: 28s; animation-delay: 5s;"></div>
+<div class="lantern" style="left: 65%; animation-duration: 22s; animation-delay: 2s;"></div>
+<div class="lantern" style="left: 75%; animation-duration: 25s; animation-delay: 0s;"></div>
+<div class="lantern" style="left: 85%; animation-duration: 27s; animation-delay: 4s;"></div>
+<div class="lantern" style="left: 95%; animation-duration: 23s; animation-delay: 1s;"></div>
+
+<!-- Clouds -->
+<div class="cloud"></div>
+<div class="cloud"></div>
+<div class="cloud"></div>
+<div class="cloud"></div>
+
+<header>
+  <img src="logoMarketMuse.png" alt="Market Muse Logo" />
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Standcalendar.html">Stand Calendar</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="Ouranimestand.html">Anime Stand</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h1>Our Chill Anime Picks</h1>
+  <div class="products-grid">
+    <div class="product-card">
+      <img src="Figure.png" alt="Anime Figure" />
+      <div class="product-name">Anime Figure</div>
+    </div>
+    <div class="product-card">
+      <img src="Keychainsanime.png" alt="Keychains" />
+      <div class="product-name">Anime Keychains</div>
+    </div>
+    <div class="product-card">
+      <img src="Buttons.png" alt="Buttons" />
+      <div class="product-name">Buttons</div>
+    </div>
+    <div class="product-card">
+      <img src="Mousemat.png" alt="Mousemat" />
+      <div class="product-name">Mousemat</div>
+    </div>
+    <div class="product-card">
+      <img src="Mysterybag.png" alt="Mysterybag" />
+      <div class="product-name">Mysterybag</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 MarketMuse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
