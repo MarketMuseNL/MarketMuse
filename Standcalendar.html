@@ -138,11 +138,18 @@
       box-shadow: 0 0 20px #ff7043cc;
     }
 
-    .date-cell.has-market {
+    .date-cell.has-market.normal {
       background-color: #fff176;
       font-weight: 900;
       border: 2px solid #fbc02d;
       box-shadow: 0 0 12px 4px #ffea00aa;
+    }
+
+    .date-cell.has-market.anime {
+      background-color: #ce93d8;
+      font-weight: 900;
+      border: 2px solid #ab47bc;
+      box-shadow: 0 0 12px 4px #ba68c8aa;
     }
 
     .date-cell.disabled {
@@ -236,7 +243,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="Standcalendar.html">Stand Calendar</a></li>
       <li><a href="products.html">Products</a></li>
-      <li><a href="Ouranimestand.html"> Anime Stand</a></li>
+      <li><a href="Ouranimestand.html">Anime Stand</a></li>
       <li><a href="Contact.html">Contact</a></li>
     </ul>
   </nav>
@@ -249,8 +256,12 @@
     <select id="monthSelect" title="Select month"></select>
     <select id="yearSelect" title="Select year"></select>
     <label style="display:flex; align-items:center; gap:8px;">
-      <input type="checkbox" id="marketOnly" />
-      <span style="font-family:'Comic Neue'; font-weight:bold;">Only show market days</span>
+      <input type="checkbox" id="normalMarketOnly" />
+      <span style="font-family:'Comic Neue'; font-weight:bold;">Show Normal Markets</span>
+    </label>
+    <label style="display:flex; align-items:center; gap:8px;">
+      <input type="checkbox" id="animeMarketOnly" />
+      <span style="font-family:'Comic Neue'; font-weight:bold;">Show Anime Markets</span>
     </label>
   </div>
 
@@ -270,19 +281,20 @@
 
 <script>
   const standData = {
-    "2025-07-05": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-07-06": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-07-13": { time: "10:00 AM - 4:00 PM", place: "Colectorsland Volmerlaan 12, 2288 GD Rijswijk" },
-    "2025-07-19": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-08-09": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
-    "2025-08-10": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord" },
+    "2025-07-05": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord", type: "normal" },
+    "2025-07-06": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord", type: "normal" },
+    "2025-07-13": { time: "10:00 AM - 4:00 PM", place: "Colectorsland Volmerlaan 12, 2288 GD Rijswijk", type: "anime" },
+    "2025-07-19": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord", type: "normal" },
+    "2025-08-09": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord", type: "anime" },
+    "2025-08-10": { time: "9:00 AM - 5:00 PM", place: "IJ-Hallen NDSM-Plein 1 1033 WC Amsterdam-Noord", type: "normal" },
   };
 
   const calendarEl = document.getElementById('calendar');
   const infoBox = document.getElementById('infoBox');
   const monthSelect = document.getElementById('monthSelect');
   const yearSelect = document.getElementById('yearSelect');
-  const marketOnlyToggle = document.getElementById('marketOnly');
+  const normalMarketOnly = document.getElementById('normalMarketOnly');
+  const animeMarketOnly = document.getElementById('animeMarketOnly');
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -328,15 +340,25 @@
     for (let day = 1; day <= lastDay.getDate(); day++) {
       const isoDate = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
       const isMarket = standData[isoDate];
-      const showOnlyMarkets = marketOnlyToggle.checked;
-      if (showOnlyMarkets && !isMarket) continue;
+      const showNormal = normalMarketOnly.checked;
+      const showAnime = animeMarketOnly.checked;
+
+      if (isMarket) {
+        if (isMarket.type === "normal" && !showNormal && (showNormal || showAnime)) continue;
+        if (isMarket.type === "anime" && !showAnime && (showNormal || showAnime)) continue;
+      } else {
+        if (showNormal || showAnime) continue;
+      }
 
       const btn = document.createElement('button');
       btn.className = 'date-cell';
       btn.textContent = day;
       btn.dataset.date = isoDate;
       if (isoDate === todayStr) btn.classList.add('today');
-      if (isMarket) btn.classList.add('has-market');
+      if (isMarket) {
+        btn.classList.add('has-market');
+        btn.classList.add(isMarket.type);
+      }
       btn.onclick = () => showInfo(isoDate);
       calendarEl.appendChild(btn);
     }
@@ -360,7 +382,7 @@
     }, 400);
   }
 
-  [monthSelect, yearSelect, marketOnlyToggle].forEach(el => {
+  [monthSelect, yearSelect, normalMarketOnly, animeMarketOnly].forEach(el => {
     el.addEventListener('change', () => {
       renderCalendar(parseInt(yearSelect.value), parseInt(monthSelect.value));
       infoBox.innerHTML = `<h2>Pick a date to see stand info</h2><p>No info selected yet.</p>`;
@@ -374,4 +396,5 @@
 
 </body>
 </html>
+
 
